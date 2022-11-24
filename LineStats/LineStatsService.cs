@@ -2,17 +2,24 @@
 {
     internal class LineStatsService
     {
-        public static Stats Count(string filename)
+        public static Stats Count(string filename, string word)
         {
-            var totalLines = 0;
-            var linesWithExactWordCount = 0;
-            var linesWithWordIgnoreCaseCount = 0;
+            var total= 0;
+            var exactCount = 0;
+            var ignoreCaseCount = 0;
+            var wordUpper = word.ToUpper();
+            using var fileStream = new FileStream(filename, FileMode.Open);
+            using var reader = new StreamReader(fileStream);
 
-            foreach (string line in System.IO.File.ReadLines(@"c:\test.txt"))
+            string line = null;
+            while((line = reader.ReadLine())!=null)
             {
-                System.Console.WriteLine(line);
-                counter++;
+                total++;
+                if (line.Contains(word)) exactCount++;
+                if (line.ToUpper().Contains(wordUpper)) ignoreCaseCount++;
             }
+            return new Stats(total, exactCount, ignoreCaseCount);
+
         }
     }
 }
