@@ -6,10 +6,14 @@
  * 3: Vise alternative kilder
  * 4: Teste med manuell mock
  * 5: Teste med Moq-rammeverk
+ *
+ * Pause til 13:02
  */
+
 //var stats = LineStatsService.Count("TextFile1.txt", "ER");
 //var reader = new FileLineReader("TextFile1.txt");
 //var reader = new KeyboardLineReader();
+
 var reader = new WebLineReader("https://www.vg.no");
 var service = new LineStatsService(reader);
 var stats = service.Count("ER");

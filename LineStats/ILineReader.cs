@@ -1,6 +1,6 @@
 ﻿namespace LineStats
 {
-    internal interface ILineReader
+    public interface ILineReader
     {
         string GetLine();
     }

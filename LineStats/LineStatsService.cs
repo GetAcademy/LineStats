@@ -1,6 +1,6 @@
 ﻿namespace LineStats
 {
-    internal class LineStatsService
+    public class LineStatsService
     {
         private readonly ILineReader _reader;
 
