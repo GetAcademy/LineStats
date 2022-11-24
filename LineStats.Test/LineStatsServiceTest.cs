@@ -1,3 +1,5 @@
+using Moq;
+
 namespace LineStats.Test
 {
     public class LineStatsServiceTest
@@ -48,6 +50,44 @@ namespace LineStats.Test
             Assert.AreEqual(1, stats.LineCountExact);
             Assert.AreEqual(4, stats.LineCountIgnoreCase);
             Assert.AreEqual(4, stats.TotalLines);
+        }
+
+        [Test]
+        public void Test2moq()
+        {
+            // arrange
+            var mock = new Mock<ILineReader>();
+            mock.Setup(lr => lr.GetLine())
+                .Returns((string) null);
+            var lineStatsService = new LineStatsService(mock.Object);
+
+            // act
+            var stats = lineStatsService.Count("er");
+
+            // assert
+            Assert.AreEqual(0, stats.LineCountExact);
+            Assert.AreEqual(0, stats.LineCountIgnoreCase);
+            Assert.AreEqual(0, stats.TotalLines);
+        }
+
+        [Test]
+        public void Test1moq()
+        {
+            // arrange
+            var mock = new Mock<ILineReader>();
+            mock.SetupSequence(lr => lr.GetLine())
+                .Returns("Hei på deg Erlend!")
+                .Returns("Bla bla bla er")
+                .Returns((string) null);
+            var lineStatsService = new LineStatsService(mock.Object);
+
+            // act
+            var stats = lineStatsService.Count("er");
+
+            // assert
+            Assert.AreEqual(1, stats.LineCountExact);
+            Assert.AreEqual(2, stats.LineCountIgnoreCase);
+            Assert.AreEqual(2, stats.TotalLines);
         }
     }
 }
